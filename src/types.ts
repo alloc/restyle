@@ -32,10 +32,10 @@ export type ResponsiveValue<Value, B extends BaseTheme['breakpoints']> =
 export type SafeVariants<T> = Omit<T, keyof KnownBaseTheme>;
 
 export interface KnownBaseTheme {
-  colors: {
+  colors?: {
     [key: string]: string;
   };
-  spacing: {
+  spacing?: {
     [key: string]: number | string;
   };
   breakpoints?: {

@@ -282,10 +282,18 @@ export const all = [
   ...textShadow,
 ];
 
+type ThemeKey<
+  Theme extends BaseTheme,
+  K extends keyof BaseTheme,
+> = K extends keyof Theme ? keyof Theme[K] : never;
+
 export interface ColorProps<Theme extends BaseTheme> {
-  color?: ResponsiveValue<keyof Theme['colors'], Theme['breakpoints']>;
+  color?: ResponsiveValue<
+    ThemeKey<Theme, 'colors'> | (string & {}),
+    Theme['breakpoints']
+  >;
   textDecorationColor?: ResponsiveValue<
-    keyof Theme['colors'],
+    ThemeKey<Theme, 'colors'> | (string & {}),
     Theme['breakpoints']
   >;
 }
@@ -299,25 +307,28 @@ export interface VisibleProps<Theme extends BaseTheme> {
 
 export interface BackgroundColorProps<Theme extends BaseTheme> {
   backgroundColor?: ResponsiveValue<
-    keyof Theme['colors'],
+    ThemeKey<Theme, 'colors'> | (string & {}),
     Theme['breakpoints']
   >;
 }
 
 export interface BackgroundColorShorthandProps<Theme extends BaseTheme> {
-  bg?: ResponsiveValue<keyof Theme['colors'], Theme['breakpoints']>;
+  bg?: ResponsiveValue<
+    ThemeKey<Theme, 'colors'> | (string & {}),
+    Theme['breakpoints']
+  >;
 }
 
 export type SpacingProps<Theme extends BaseTheme> = {
   [Key in keyof typeof spacingProperties]?: ResponsiveValue<
-    keyof Theme['spacing'],
+    ThemeKey<Theme, 'spacing'> | number | (string & {}),
     Theme['breakpoints']
   >;
 };
 
 export type SpacingShorthandProps<Theme extends BaseTheme> = {
   [Key in keyof typeof spacingPropertiesShorthand]?: ResponsiveValue<
-    keyof Theme['spacing'],
+    ThemeKey<Theme, 'spacing'> | number | (string & {}),
     Theme['breakpoints']
   >;
 };
@@ -343,7 +354,7 @@ export type PositionProps<Theme extends BaseTheme> = {
   >;
 } & {
   zIndex?: ResponsiveValue<
-    Theme['zIndices'] extends object ? keyof Theme['zIndices'] : number,
+    ThemeKey<Theme, 'zIndices'> | number,
     Theme['breakpoints']
   >;
 };
@@ -355,12 +366,12 @@ export type BorderProps<Theme extends BaseTheme> = {
   >;
 } & {
   [Key in keyof typeof borderColorProperties]?: ResponsiveValue<
-    keyof Theme['colors'],
+    ThemeKey<Theme, 'colors'> | (string & {}),
     Theme['breakpoints']
   >;
 } & {
   [Key in keyof typeof borderRadiusProperties]?: ResponsiveValue<
-    Theme['borderRadii'] extends object ? keyof Theme['borderRadii'] : number,
+    ThemeKey<Theme, 'borderRadii'> | number,
     Theme['breakpoints']
   >;
 };
@@ -371,7 +382,10 @@ export type ShadowProps<Theme extends BaseTheme> = {
     Theme['breakpoints']
   >;
 } & {
-  shadowColor?: ResponsiveValue<keyof Theme['colors'], Theme['breakpoints']>;
+  shadowColor?: ResponsiveValue<
+    ThemeKey<Theme, 'colors'> | (string & {}),
+    Theme['breakpoints']
+  >;
 };
 
 export type TextShadowProps<Theme extends BaseTheme> = {
@@ -381,7 +395,7 @@ export type TextShadowProps<Theme extends BaseTheme> = {
   >;
 } & {
   textShadowColor?: ResponsiveValue<
-    keyof Theme['colors'],
+    ThemeKey<Theme, 'colors'> | (string & {}),
     Theme['breakpoints']
   >;
 };
