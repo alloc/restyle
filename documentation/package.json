@@ -1,5 +1,5 @@
 {
-  "name": "restyle",
+  "name": "@alloc/restyle",
   "version": "0.0.0",
   "private": true,
   "scripts": {
