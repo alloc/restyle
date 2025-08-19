@@ -1,5 +1,12 @@
 import {BaseTheme, PropValue, StyleTransformFunction} from '../types';
 
+const allowUndefinedThemeValues: Partial<Record<PropertyKey, boolean>> = {
+  colors: true,
+  spacing: true,
+  zIndices: true,
+  borderRadii: true,
+};
+
 /**
  * Returns value from a theme for a given `themeKey`, applying `transform` if defined.
  */
@@ -19,13 +26,27 @@ export function getThemeValue<
     themeKey?: K;
   },
 ) {
-  if (transform) return transform({value, theme, themeKey});
-  if (isThemeKey(theme, themeKey)) {
-    return value != null && typeof value === 'string'
-      ? theme[themeKey][value] || value
-      : value;
+  console.log('🔥 [getThemeValue]', {
+    value,
+    themeKey,
+    transform,
+  });
+  if (transform) {
+    return transform({value, theme, themeKey});
   }
-
+  if (isThemeKey(theme, themeKey)) {
+    if (!value) {
+      return value;
+    }
+    const themeValue = theme[themeKey][value as string];
+    if (themeValue !== undefined) {
+      return themeValue;
+    }
+    if (!allowUndefinedThemeValues[themeKey])
+      throw new Error(
+        `Value '${value}' does not exist in theme['${String(themeKey)}']`,
+      );
+  }
   return value;
 }
 
