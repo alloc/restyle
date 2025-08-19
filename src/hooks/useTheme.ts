@@ -1,5 +1,5 @@
 import {useContext} from 'react';
-import {BaseTheme} from 'types';
+import {BaseTheme} from '../types';
 
 import {ThemeContext} from '../context';
 
