@@ -2,9 +2,9 @@ import React from 'react';
 import {create as render} from 'react-test-renderer';
 import {Text as RNText} from 'react-native';
 
-import createTheme from '../createTheme';
-import createText from '../createText';
-import {ThemeProvider} from '../context';
+import createTheme from '../src/createTheme';
+import createText from '../src/createText';
+import {ThemeProvider} from '../src/context';
 
 const palette = {
   black: '#000000',

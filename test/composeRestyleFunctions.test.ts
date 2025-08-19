@@ -1,5 +1,5 @@
-import createRestyleFunction from '../createRestyleFunction';
-import composeRestyleFunctions from '../composeRestyleFunctions';
+import createRestyleFunction from '../src/createRestyleFunction';
+import composeRestyleFunctions from '../src/composeRestyleFunctions';
 
 const theme = {
   colors: {

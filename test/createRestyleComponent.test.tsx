@@ -2,7 +2,7 @@ import React from 'react';
 import {create as render} from 'react-test-renderer';
 import {View, ViewProps} from 'react-native';
 
-import createRestyleComponent from '../createRestyleComponent';
+import createRestyleComponent from '../src/createRestyleComponent';
 import {
   backgroundColor,
   BackgroundColorProps,
@@ -12,9 +12,9 @@ import {
   spacingShorthand,
   OpacityProps,
   opacity,
-} from '../restyleFunctions';
-import {ThemeProvider} from '../context';
-import createVariant, {VariantProps} from '../createVariant';
+} from '../src/restyleFunctions';
+import {ThemeProvider} from '../src/context';
+import createVariant, {VariantProps} from '../src/createVariant';
 
 const theme = {
   colors: {

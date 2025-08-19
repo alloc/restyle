@@ -1,16 +1,16 @@
 import React from 'react';
 import {View, ViewProps} from 'react-native';
 
-import useRestyle from '../hooks/useRestyle';
-import createVariant, {VariantProps} from '../createVariant';
-import composeRestyleFunctions from '../composeRestyleFunctions';
+import useRestyle from '../src/hooks/useRestyle';
+import createVariant, {VariantProps} from '../src/createVariant';
+import composeRestyleFunctions from '../src/composeRestyleFunctions';
 import {
   backgroundColor,
   BackgroundColorProps,
   BorderProps,
   spacing,
   SpacingProps,
-} from '../restyleFunctions';
+} from '../src/restyleFunctions';
 
 const palette = {
   purple: '#5A31F4',

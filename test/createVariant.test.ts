@@ -1,5 +1,5 @@
-import createVariant from '../createVariant';
-import {BaseTheme} from '../types';
+import createVariant from '../src/createVariant';
+import {BaseTheme} from '../src/types';
 
 const theme: BaseTheme = {
   colors: {

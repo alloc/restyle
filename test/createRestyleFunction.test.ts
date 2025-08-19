@@ -1,5 +1,5 @@
-import createRestyleFunction from '../createRestyleFunction';
-import {RNStyle} from '../types';
+import createRestyleFunction from '../src/createRestyleFunction';
+import {RNStyle} from '../src/types';
 
 const theme = {
   colors: {},

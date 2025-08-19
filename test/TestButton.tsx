@@ -1,10 +1,10 @@
 import React, {ComponentPropsWithoutRef} from 'react';
 import {Text, TouchableOpacity} from 'react-native';
 
-import useRestyle from '../hooks/useRestyle';
-import {position, PositionProps} from '../restyleFunctions';
-import createVariant, {VariantProps} from '../createVariant';
-import composeRestyleFunctions from '../composeRestyleFunctions';
+import useRestyle from '../src/hooks/useRestyle';
+import {position, PositionProps} from '../src/restyleFunctions';
+import createVariant, {VariantProps} from '../src/createVariant';
+import composeRestyleFunctions from '../src/composeRestyleFunctions';
 
 const theme = {
   colors: {},
