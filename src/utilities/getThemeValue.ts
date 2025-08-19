@@ -21,12 +21,9 @@ export function getThemeValue<
 ) {
   if (transform) return transform({value, theme, themeKey});
   if (isThemeKey(theme, themeKey)) {
-    if (value && theme[themeKey][value as string] === undefined)
-      throw new Error(
-        `Value '${value}' does not exist in theme['${String(themeKey)}']`,
-      );
-
-    return value ? theme[themeKey][value as string] : value;
+    return value != null && typeof value === 'string'
+      ? theme[themeKey][value] || value
+      : value;
   }
 
   return value;
