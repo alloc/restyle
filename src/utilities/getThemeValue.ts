@@ -26,18 +26,10 @@ export function getThemeValue<
     themeKey?: K;
   },
 ) {
-  console.log('🔥 [getThemeValue]', {
-    value,
-    themeKey,
-    transform,
-  });
   if (transform) {
     return transform({value, theme, themeKey});
   }
-  if (isThemeKey(theme, themeKey)) {
-    if (!value) {
-      return value;
-    }
+  if (value && isThemeKey(theme, themeKey)) {
     const themeValue = theme[themeKey][value as string];
     if (themeValue !== undefined) {
       return themeValue;
