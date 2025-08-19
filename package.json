@@ -5,6 +5,11 @@
   "description": "A system for building constraint-based UI components",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
+  "exports": {
+    "react-native": "./src/index.ts",
+    "types": "./dist/index.d.ts",
+    "default": "./dist/index.js"
+  },
   "sideEffects": false,
   "scripts": {
     "build": "tsc",
@@ -49,6 +54,7 @@
     "react-native": "*"
   },
   "files": [
-    "dist/*"
+    "dist",
+    "src"
   ]
 }
