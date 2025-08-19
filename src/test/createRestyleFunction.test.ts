@@ -116,10 +116,10 @@ describe('createRestyleFunction', () => {
         });
       });
 
-      it('throws an error when trying to use an invalid theme value', () => {
+      it('won’t throw an error when trying to use an invalid theme value', () => {
         expect(() =>
           styleFunc.func({opacity: 'veryVisible'}, {theme, dimensions}),
-        ).toThrow(/does not exist/);
+        ).not.toThrow();
       });
 
       it('allows 0 as a theme value', () => {

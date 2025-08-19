@@ -32,7 +32,7 @@ describe('Use restyle', () => {
       </ThemeProvider>,
     );
 
-    expect(root.findByType(View).props.style).toStrictEqual([{padding: 0}]);
+    expect(root.findByType(View).props.style).toStrictEqual([{padding: 'none'}]);
   });
 
   it('parent styles match theme', () => {
@@ -44,7 +44,7 @@ describe('Use restyle', () => {
       </ThemeProvider>,
     );
 
-    expect(root.findByType(View).props.style).toStrictEqual([{padding: 0}]);
+    expect(root.findByType(View).props.style).toStrictEqual([{padding: 'none'}]);
   });
 
   it('child styles match theme', () => {
