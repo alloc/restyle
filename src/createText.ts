@@ -1,5 +1,5 @@
 import React from 'react';
-import {NativeMethods, Text} from 'react-native';
+import {Text} from 'react-native';
 
 import createRestyleComponent from './createRestyleComponent';
 import {BaseTheme, RestyleFunctionContainer} from './types';
@@ -54,7 +54,7 @@ export const textRestyleFunctions = [
 const createText = <
   Theme extends BaseTheme,
   Props = React.ComponentProps<typeof Text> & {children?: React.ReactNode},
-  Ref = NativeMethods,
+  Ref = Text,
   EnableShorthand extends boolean = true,
 >(
   BaseComponent: React.ComponentType<any> = Text,
