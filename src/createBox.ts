@@ -1,5 +1,5 @@
 import React from 'react';
-import {View} from 'react-native';
+import {NativeMethods, View} from 'react-native';
 
 import createRestyleComponent from './createRestyleComponent';
 import {BaseTheme, RestyleFunctionContainer} from './types';
@@ -60,6 +60,7 @@ export const boxRestyleFunctions = [
 const createBox = <
   Theme extends BaseTheme,
   Props = React.ComponentProps<typeof View> & {children?: React.ReactNode},
+  Ref = NativeMethods,
   EnableShorthand extends boolean = true,
 >(
   BaseComponent: React.ComponentType<any> = View,
@@ -67,7 +68,8 @@ const createBox = <
   return createRestyleComponent<
     BoxProps<Theme, EnableShorthand> &
       Omit<Props, keyof BoxProps<Theme, EnableShorthand>>,
-    Theme
+    Theme,
+    Ref
   >(
     boxRestyleFunctions as RestyleFunctionContainer<
       BoxProps<Theme, EnableShorthand>,

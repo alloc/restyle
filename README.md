@@ -2,10 +2,11 @@
 
 `@alloc/restyle` is a fork of `@shopify/restyle` for building **consistent, themeable, type-safe UI** in React Native + TypeScript.
 
-It differs from the original in two key ways:
+It differs from the original in three key ways:
 
 1. **Optional theme properties** — All properties of `createTheme` (`colors`, `spacing`, etc.) are optional.
 2. **Arbitrary values allowed** — You can pass raw values (colors, spacing, etc.) directly to JSX props without declaring them in the theme.
+3. **TypeScript ref typing** — Forward refs are properly typed, allowing you to specify the ref type for full type safety with any base component.
 
 ---
 
@@ -30,8 +31,8 @@ export default function App() {
 
 ### Creating Components
 
-- `createBox<Theme>()` → Base layout component
-- `createText<Theme>()` → Text component with typography support
+- `createBox<Theme>()` → Base layout component with forward ref support
+- `createText<Theme>()` → Text component with typography support and forward ref support
 
 ```tsx
 import {createBox, createText} from '@alloc/restyle';
@@ -39,6 +40,51 @@ import {Theme} from './theme';
 
 const Box = createBox<Theme>();
 const Text = createText<Theme>();
+
+// Forward refs are automatically supported
+const MyComponent = () => {
+  const boxRef = useRef();
+  const textRef = useRef();
+
+  return (
+    <>
+      <Box ref={boxRef} padding="m" />
+      <Text ref={textRef} variant="body">
+        Hello
+      </Text>
+    </>
+  );
+};
+```
+
+You can also wrap third-party components and specify their ref type:
+
+```tsx
+import {createBox} from '@alloc/restyle';
+import {FlashList} from '@shopify/flash-list';
+import type {FlashListRef} from '@shopify/flash-list';
+
+// Wrap FlashList with restyle props and proper ref typing
+const StyledFlashList = createBox<
+  Theme,
+  React.ComponentProps<typeof FlashList<any>>,
+  FlashListRef<any>
+>(FlashList);
+
+const MyComponent = () => {
+  const flashListRef = useRef<FlashListRef<any>>();
+
+  return (
+    <StyledFlashList
+      ref={flashListRef}
+      padding="m"
+      backgroundColor="white"
+      data={data}
+      renderItem={renderItem}
+      estimatedItemSize={50}
+    />
+  );
+};
 ```
 
 ### Defining a Theme
@@ -187,7 +233,9 @@ const Button = props => {
 ### Predefined Components
 
 - **Box** → includes `backgroundColor`, `spacing`, `border`, `shadow`, `layout`, etc.
-- **Text** → includes `color`, `typography`, `spacing`, `layout`, and supports `textVariants`.
+- **Text** → includes `color`, `typography`, `spacing`, `layout`, and supports `textVariants`
+
+Both components automatically forward refs to their underlying React Native components (`View` and `Text` respectively), giving you access to native methods like `measure()`, `focus()`, etc.
 
 ---
 
@@ -195,8 +243,11 @@ const Button = props => {
 
 ### Custom Restyle Functions
 
+Custom restyle functions allow you to create reusable style transformations:
+
 ```tsx
-import {createRestyleFunction} from '@alloc/restyle';
+import {createRestyleFunction, createRestyleComponent} from '@alloc/restyle';
+import {ViewProps, View} from 'react-native';
 
 const transparency = createRestyleFunction({
   property: 'transparency',
@@ -204,7 +255,14 @@ const transparency = createRestyleFunction({
   transform: ({value}) => 1 - value,
 });
 
-const TransparentView = createRestyleComponent([transparency]);
+type TransparencyProps = {
+  transparency?: number;
+};
+
+const TransparentView = createRestyleComponent<
+  TransparencyProps & ViewProps,
+  Theme
+>([transparency]);
 
 // Usage
 return <TransparentView transparency={0.3} />;

@@ -8,6 +8,7 @@ import useRestyle from './hooks/useRestyle';
 const createRestyleComponent = <
   Props extends {[key: string]: any},
   Theme extends BaseTheme,
+  Ref
 >(
   restyleFunctions: (
     | RestyleFunctionContainer<Props, Theme>
@@ -17,7 +18,7 @@ const createRestyleComponent = <
 ) => {
   const composedRestyleFunction = composeRestyleFunctions(restyleFunctions);
 
-  const RestyleComponent = React.forwardRef((props: Props, ref) => {
+  const RestyleComponent = React.forwardRef<Ref, Props>((props, ref) => {
     const passedProps = useRestyle(composedRestyleFunction, props);
     return <BaseComponent ref={ref} {...passedProps} />;
   });
