@@ -323,14 +323,14 @@ export interface BackgroundColorShorthandProps<Theme extends BaseTheme> {
 
 export type SpacingProps<Theme extends BaseTheme> = {
   [Key in keyof typeof spacingProperties]?: ResponsiveValue<
-    ThemeKey<Theme, 'spacing'> | number | (string & {}),
+    ThemeKey<Theme, 'spacing'> | number,
     Theme['breakpoints']
   >;
 };
 
 export type SpacingShorthandProps<Theme extends BaseTheme> = {
   [Key in keyof typeof spacingPropertiesShorthand]?: ResponsiveValue<
-    ThemeKey<Theme, 'spacing'> | number | (string & {}),
+    ThemeKey<Theme, 'spacing'> | number,
     Theme['breakpoints']
   >;
 };
