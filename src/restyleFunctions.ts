@@ -287,15 +287,23 @@ type ThemeKey<
   K extends keyof BaseTheme,
 > = K extends keyof Theme ? keyof Theme[K] : never;
 
+export type HexColor = `#${string}`;
+export type RgbColor = `rgb(${string})`;
+export type RgbaColor = `rgba(${string})`;
+export type HslColor = `hsl(${string})`;
+export type HslaColor = `hsla(${string})`;
+
+export type Color =
+  | ThemeKey<BaseTheme, 'colors'>
+  | HexColor
+  | RgbColor
+  | RgbaColor
+  | HslColor
+  | HslaColor;
+
 export interface ColorProps<Theme extends BaseTheme> {
-  color?: ResponsiveValue<
-    ThemeKey<Theme, 'colors'> | (string & {}),
-    Theme['breakpoints']
-  >;
-  textDecorationColor?: ResponsiveValue<
-    ThemeKey<Theme, 'colors'> | (string & {}),
-    Theme['breakpoints']
-  >;
+  color?: ResponsiveValue<Color, Theme['breakpoints']>;
+  textDecorationColor?: ResponsiveValue<Color, Theme['breakpoints']>;
 }
 export interface OpacityProps<Theme extends BaseTheme> {
   opacity?: ResponsiveValue<number, Theme['breakpoints']>;
@@ -306,17 +314,11 @@ export interface VisibleProps<Theme extends BaseTheme> {
 }
 
 export interface BackgroundColorProps<Theme extends BaseTheme> {
-  backgroundColor?: ResponsiveValue<
-    ThemeKey<Theme, 'colors'> | (string & {}),
-    Theme['breakpoints']
-  >;
+  backgroundColor?: ResponsiveValue<Color, Theme['breakpoints']>;
 }
 
 export interface BackgroundColorShorthandProps<Theme extends BaseTheme> {
-  bg?: ResponsiveValue<
-    ThemeKey<Theme, 'colors'> | (string & {}),
-    Theme['breakpoints']
-  >;
+  bg?: ResponsiveValue<Color, Theme['breakpoints']>;
 }
 
 export type SpacingProps<Theme extends BaseTheme> = {
@@ -366,7 +368,7 @@ export type BorderProps<Theme extends BaseTheme> = {
   >;
 } & {
   [Key in keyof typeof borderColorProperties]?: ResponsiveValue<
-    ThemeKey<Theme, 'colors'> | (string & {}),
+    Color,
     Theme['breakpoints']
   >;
 } & {
@@ -382,10 +384,7 @@ export type ShadowProps<Theme extends BaseTheme> = {
     Theme['breakpoints']
   >;
 } & {
-  shadowColor?: ResponsiveValue<
-    ThemeKey<Theme, 'colors'> | (string & {}),
-    Theme['breakpoints']
-  >;
+  shadowColor?: ResponsiveValue<Color, Theme['breakpoints']>;
 };
 
 export type TextShadowProps<Theme extends BaseTheme> = {
@@ -394,10 +393,7 @@ export type TextShadowProps<Theme extends BaseTheme> = {
     Theme['breakpoints']
   >;
 } & {
-  textShadowColor?: ResponsiveValue<
-    ThemeKey<Theme, 'colors'> | (string & {}),
-    Theme['breakpoints']
-  >;
+  textShadowColor?: ResponsiveValue<Color, Theme['breakpoints']>;
 };
 
 export type AllProps<Theme extends BaseTheme> = BackgroundColorProps<Theme> &
