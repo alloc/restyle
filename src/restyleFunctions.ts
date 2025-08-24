@@ -293,18 +293,21 @@ export type RgbaColor = `rgba(${string})`;
 export type HslColor = `hsl(${string})`;
 export type HslaColor = `hsla(${string})`;
 
-export type Color =
-  | ThemeKey<BaseTheme, 'colors'>
+export type ResponsiveColor<Theme extends BaseTheme> = ResponsiveValue<
+  | ThemeKey<Theme, 'colors'>
   | HexColor
   | RgbColor
   | RgbaColor
   | HslColor
-  | HslaColor;
+  | HslaColor,
+  Theme['breakpoints']
+>;
 
 export interface ColorProps<Theme extends BaseTheme> {
-  color?: ResponsiveValue<Color, Theme['breakpoints']>;
-  textDecorationColor?: ResponsiveValue<Color, Theme['breakpoints']>;
+  color?: ResponsiveColor<Theme>;
+  textDecorationColor?: ResponsiveColor<Theme>;
 }
+
 export interface OpacityProps<Theme extends BaseTheme> {
   opacity?: ResponsiveValue<number, Theme['breakpoints']>;
 }
@@ -314,11 +317,11 @@ export interface VisibleProps<Theme extends BaseTheme> {
 }
 
 export interface BackgroundColorProps<Theme extends BaseTheme> {
-  backgroundColor?: ResponsiveValue<Color, Theme['breakpoints']>;
+  backgroundColor?: ResponsiveColor<Theme>;
 }
 
 export interface BackgroundColorShorthandProps<Theme extends BaseTheme> {
-  bg?: ResponsiveValue<Color, Theme['breakpoints']>;
+  bg?: ResponsiveColor<Theme>;
 }
 
 export type SpacingProps<Theme extends BaseTheme> = {
@@ -367,10 +370,7 @@ export type BorderProps<Theme extends BaseTheme> = {
     Theme['breakpoints']
   >;
 } & {
-  [Key in keyof typeof borderColorProperties]?: ResponsiveValue<
-    Color,
-    Theme['breakpoints']
-  >;
+  [Key in keyof typeof borderColorProperties]?: ResponsiveColor<Theme>;
 } & {
   [Key in keyof typeof borderRadiusProperties]?: ResponsiveValue<
     ThemeKey<Theme, 'borderRadii'> | number,
@@ -384,7 +384,7 @@ export type ShadowProps<Theme extends BaseTheme> = {
     Theme['breakpoints']
   >;
 } & {
-  shadowColor?: ResponsiveValue<Color, Theme['breakpoints']>;
+  shadowColor?: ResponsiveColor<Theme>;
 };
 
 export type TextShadowProps<Theme extends BaseTheme> = {
@@ -393,7 +393,7 @@ export type TextShadowProps<Theme extends BaseTheme> = {
     Theme['breakpoints']
   >;
 } & {
-  textShadowColor?: ResponsiveValue<Color, Theme['breakpoints']>;
+  textShadowColor?: ResponsiveColor<Theme>;
 };
 
 export type AllProps<Theme extends BaseTheme> = BackgroundColorProps<Theme> &
