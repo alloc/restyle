@@ -12,7 +12,7 @@
     "test": "jest",
     "lint": "eslint '**/*.{ts,tsx}' && yarn tsc --noEmit",
     "lint-fix": "eslint --fix '**/*.{ts,tsx}'",
-    "prepublishOnly": "yarn run build",
+    "prepublishOnly": "tsc",
     "up": "yarn && yarn fixture-up",
     "fixture-up": "yarn build && cd fixture && yarn && pod install --project-directory=ios",
     "start": "cd fixture && react-native start",
