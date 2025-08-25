@@ -241,6 +241,9 @@ export const border = [
       themeKey: 'borderRadii',
     });
   }),
+  createRestyleFunction({
+    property: 'borderCurve',
+  }),
 ];
 
 export const shadow = [
@@ -376,6 +379,12 @@ export type BorderProps<Theme extends BaseTheme> = {
     ThemeKey<Theme, 'borderRadii'> | number,
     Theme['breakpoints']
   >;
+} & {
+  /**
+   * On iOS 13+, it is possible to change the corner curve of borders.
+   * @platform ios
+   */
+  borderCurve?: ResponsiveValue<ViewStyle['borderCurve'], Theme['breakpoints']>;
 };
 
 export type ShadowProps<Theme extends BaseTheme> = {
