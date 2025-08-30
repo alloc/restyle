@@ -232,6 +232,26 @@ export const layout = [
       };
     },
   }),
+  createRestyleFunction({
+    property: 'placeItems',
+    expand: true,
+    transform({value}) {
+      if (value === undefined) {
+        return undefined;
+      }
+      if (!Array.isArray(value)) {
+        return {
+          alignItems: value,
+          justifyContent: value,
+        };
+      }
+      const [alignItems, justifyContent] = value;
+      return {
+        alignItems,
+        justifyContent,
+      };
+    },
+  }),
 ];
 
 export const position = [
@@ -403,6 +423,11 @@ export type LayoutProps<Theme extends BaseTheme> = {
   placeContent?: ResponsiveValue<
     | FlexStyle['alignContent']
     | [FlexStyle['alignContent']?, FlexStyle['justifyContent']?],
+    Theme['breakpoints']
+  >;
+  placeItems?: ResponsiveValue<
+    | FlexStyle['alignItems']
+    | [FlexStyle['alignItems']?, FlexStyle['justifyContent']?],
     Theme['breakpoints']
   >;
 };
