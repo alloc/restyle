@@ -3,6 +3,7 @@ import {TextStyle, FlexStyle, ViewStyle, DimensionValue} from 'react-native';
 import createRestyleFunction from './createRestyleFunction';
 import {BaseTheme, ResponsiveValue, RNStyleProperty} from './types';
 import {getKeys} from './typeHelpers';
+import {Color} from './colorTypes';
 
 const spacingProperties = {
   margin: true,
@@ -346,19 +347,8 @@ type ThemeKey<
   K extends keyof BaseTheme,
 > = K extends keyof Theme ? keyof Theme[K] : never;
 
-export type HexColor = `#${string}`;
-export type RgbColor = `rgb(${string})`;
-export type RgbaColor = `rgba(${string})`;
-export type HslColor = `hsl(${string})`;
-export type HslaColor = `hsla(${string})`;
-
 export type ResponsiveColor<Theme extends BaseTheme> = ResponsiveValue<
-  | ThemeKey<Theme, 'colors'>
-  | HexColor
-  | RgbColor
-  | RgbaColor
-  | HslColor
-  | HslaColor,
+  ThemeKey<Theme, 'colors'> | Color,
   Theme['breakpoints']
 >;
 

@@ -1,5 +1,6 @@
 export * from './restyleFunctions';
 export * from './types';
+export * from './colorTypes';
 export * from './createVariant';
 export * from './createBox';
 export * from './createText';
