@@ -185,9 +185,14 @@ export const visible = createRestyleFunction({
   transform: ({value}) => (value === false ? 'none' : 'flex'),
 });
 
-export const transform = createRestyleFunction({
-  property: 'transform',
-});
+export const transform = [
+  createRestyleFunction({
+    property: 'transform',
+  }),
+  createRestyleFunction({
+    property: 'transformOrigin',
+  }),
+];
 
 export const spacing = getKeys(spacingProperties).map(property => {
   return createRestyleFunction({
@@ -400,6 +405,10 @@ type TransformProp = Exclude<TransformsStyle['transform'], undefined>;
 
 export interface TransformProps<Theme extends BaseTheme> {
   transform?: ResponsiveValue<TransformProp, Theme['breakpoints']>;
+  transformOrigin?: ResponsiveValue<
+    TransformsStyle['transformOrigin'],
+    Theme['breakpoints']
+  >;
 }
 
 export interface BackgroundColorProps<Theme extends BaseTheme> {
