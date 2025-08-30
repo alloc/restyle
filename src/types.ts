@@ -93,5 +93,3 @@ export type RNStyleProperty =
   | keyof ViewStyle
   | keyof TextStyle
   | keyof ImageStyle;
-
-export type PropValue = string | number | undefined | null;

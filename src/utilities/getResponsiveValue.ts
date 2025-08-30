@@ -1,6 +1,5 @@
 import {
   Dimensions,
-  PropValue,
   ResponsiveValue,
   ResponsiveBaseTheme,
   StyleTransformFunction,
@@ -16,7 +15,7 @@ type ValueOf<T> = T[keyof T];
  * Gets actual value for a given `themeKey` based on `breakpoints` and current `dimensions`.
  */
 export const getResponsiveValue = <
-  TVal extends PropValue,
+  TVal,
   Theme extends ResponsiveBaseTheme,
   K extends keyof Theme | undefined,
 >(

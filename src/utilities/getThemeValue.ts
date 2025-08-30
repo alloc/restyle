@@ -1,4 +1,4 @@
-import {BaseTheme, PropValue, StyleTransformFunction} from '../types';
+import {BaseTheme, StyleTransformFunction} from '../types';
 
 const allowUndefinedThemeValues: Partial<Record<PropertyKey, boolean>> = {
   colors: true,
@@ -11,7 +11,7 @@ const allowUndefinedThemeValues: Partial<Record<PropertyKey, boolean>> = {
  * Returns value from a theme for a given `themeKey`, applying `transform` if defined.
  */
 export function getThemeValue<
-  TVal extends PropValue,
+  TVal,
   Theme extends BaseTheme,
   K extends keyof Theme | undefined,
 >(
