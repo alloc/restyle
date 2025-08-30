@@ -1,6 +1,6 @@
 import {BaseTheme, StyleTransformFunction} from '../types';
 
-const allowUndefinedThemeValues: Partial<Record<PropertyKey, boolean>> = {
+const allowUndefinedThemeValues: Partial<{[key: PropertyKey]: boolean}> = {
   colors: true,
   spacing: true,
   zIndices: true,
