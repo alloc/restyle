@@ -4,12 +4,14 @@ import {
   ViewStyle,
   DimensionValue,
   TransformsStyle,
+  Platform,
 } from 'react-native';
 
 import createRestyleFunction from './createRestyleFunction';
 import {BaseTheme, ResponsiveValue, RNStyleProperty} from './types';
 import {getKeys} from './typeHelpers';
 import {Color} from './colorTypes';
+import {getThemeValue} from './utilities';
 
 const spacingProperties = {
   margin: true,
@@ -139,13 +141,6 @@ const borderColorProperties = {
   borderBottomColor: true,
   borderStartColor: true,
   borderEndColor: true,
-};
-
-const shadowProperties = {
-  shadowOpacity: true,
-  shadowOffset: true,
-  shadowRadius: true,
-  elevation: true,
 };
 
 const textShadowProperties = {
@@ -338,17 +333,42 @@ export const border = [
   }),
 ];
 
-export const shadow = [
-  ...getKeys(shadowProperties).map(property => {
-    return createRestyleFunction({
-      property,
-    });
-  }),
-  createRestyleFunction({
-    property: 'shadowColor',
-    themeKey: 'colors',
-  }),
-];
+// Uses boxShadow on Android and shadowOffset on iOS
+export const boxShadow = createRestyleFunction({
+  property: 'boxShadow',
+  expand: true,
+  transform({value, theme}) {
+    if (
+      Platform.OS === 'android' ||
+      Array.isArray(value) ||
+      value.includes(',')
+    ) {
+      // Fall back to boxShadow for Android and array handling.
+      return {boxShadow: value};
+    }
+
+    const parts: string[] = value.trim().split(/\s+/);
+    const colorIndex = parts.findIndex(part => isNaN(parseInt(part)));
+    const color =
+      colorIndex !== -1 ? parts.splice(colorIndex, 1)[0] : undefined;
+
+    if (parts.length > 3) {
+      // Fall back to boxShadow for <spread-radius> or <inset> options.
+      return {boxShadow: value};
+    }
+
+    return {
+      shadowOffset: {
+        width: parseInt(parts[0]),
+        height: parseInt(parts[1]),
+      },
+      shadowRadius: parts[2] ? parseInt(parts[2]) : undefined,
+      shadowColor: color
+        ? getThemeValue(color, {theme, themeKey: 'colors'})
+        : undefined,
+    };
+  },
+});
 
 export const textShadow = [
   ...getKeys(textShadowProperties).map(property => {
@@ -368,14 +388,14 @@ export const all = [
   transform,
   backgroundColor,
   backgroundColorShorthand,
-  ...spacing,
-  ...spacingShorthand,
-  ...typography,
-  ...layout,
-  ...position,
-  ...border,
-  ...shadow,
-  ...textShadow,
+  spacing,
+  spacingShorthand,
+  typography,
+  layout,
+  position,
+  border,
+  boxShadow,
+  textShadow,
 ];
 
 type ThemeKey<
@@ -495,13 +515,8 @@ export type BorderProps<Theme extends BaseTheme> = {
   borderCurve?: ResponsiveValue<ViewStyle['borderCurve'], Theme['breakpoints']>;
 };
 
-export type ShadowProps<Theme extends BaseTheme> = {
-  [Key in keyof typeof shadowProperties]?: ResponsiveValue<
-    ViewStyle[Key],
-    Theme['breakpoints']
-  >;
-} & {
-  shadowColor?: ResponsiveColor<Theme>;
+export type BoxShadowProps<Theme extends BaseTheme> = {
+  boxShadow?: ResponsiveValue<ViewStyle['boxShadow'], Theme['breakpoints']>;
 };
 
 export type TextShadowProps<Theme extends BaseTheme> = {
@@ -524,5 +539,5 @@ export type AllProps<Theme extends BaseTheme> = BackgroundColorProps<Theme> &
   LayoutProps<Theme> &
   PositionProps<Theme> &
   BorderProps<Theme> &
-  ShadowProps<Theme> &
+  BoxShadowProps<Theme> &
   TextShadowProps<Theme>;
