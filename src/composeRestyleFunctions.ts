@@ -40,7 +40,7 @@ const composeRestyleFunctions = <
       dimensions: Dimensions | null;
     },
   ): RNStyle => {
-    const styles: ViewStyle = {};
+    const styles: any = {};
     const options = {theme, dimensions};
 
     // We make the assumption that the props object won't have extra prototype keys.
@@ -49,11 +49,13 @@ const composeRestyleFunctions = <
       const mappedProps = funcsMap[key](props, options);
       // eslint-disable-next-line guard-for-in
       for (const mappedKey in mappedProps) {
-        styles[mappedKey as keyof ViewStyle] = mappedProps[mappedKey];
+        styles[mappedKey] = mappedProps[mappedKey];
       }
     }
 
-    const {stylesheet} = StyleSheet.create({stylesheet: styles});
+    const {stylesheet} = StyleSheet.create({
+      stylesheet: styles as ViewStyle,
+    });
     return stylesheet;
   };
 
