@@ -205,11 +205,33 @@ export const typography = getKeys(typographyProperties).map(property => {
   });
 });
 
-export const layout = getKeys(layoutProperties).map(property => {
-  return createRestyleFunction({
-    property,
-  });
-});
+export const layout = [
+  ...getKeys(layoutProperties).map(property => {
+    return createRestyleFunction({
+      property,
+    });
+  }),
+  createRestyleFunction({
+    property: 'placeContent',
+    expand: true,
+    transform({value}) {
+      if (value === undefined) {
+        return undefined;
+      }
+      if (!Array.isArray(value)) {
+        return {
+          alignContent: value,
+          justifyContent: value,
+        };
+      }
+      const [alignContent, justifyContent] = value;
+      return {
+        alignContent,
+        justifyContent,
+      };
+    },
+  }),
+];
 
 export const position = [
   ...getKeys(positionProperties).map(property => {
@@ -385,6 +407,12 @@ export type TypographyProps<Theme extends BaseTheme> = {
 export type LayoutProps<Theme extends BaseTheme> = {
   [Key in keyof typeof layoutProperties]?: ResponsiveValue<
     FlexStyle[Key],
+    Theme['breakpoints']
+  >;
+} & {
+  placeContent?: ResponsiveValue<
+    | FlexStyle['alignContent']
+    | [FlexStyle['alignContent']?, FlexStyle['justifyContent']?],
     Theme['breakpoints']
   >;
 };
