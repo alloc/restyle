@@ -24,11 +24,14 @@ import {
   SpacingShorthandProps,
   BackgroundColorShorthandProps,
   spacingShorthand,
+  transform,
+  TransformProps,
 } from './restyleFunctions';
 
 type BaseBoxProps<Theme extends BaseTheme> = BackgroundColorProps<Theme> &
   OpacityProps<Theme> &
   VisibleProps<Theme> &
+  TransformProps<Theme> &
   LayoutProps<Theme> &
   SpacingProps<Theme> &
   BorderProps<Theme> &
@@ -49,6 +52,7 @@ export const boxRestyleFunctions = [
   backgroundColorShorthand,
   opacity,
   visible,
+  transform,
   layout,
   spacing,
   spacingShorthand,

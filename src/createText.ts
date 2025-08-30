@@ -10,6 +10,7 @@ import {
   typography,
   textShadow,
   visible,
+  transform,
   ColorProps,
   OpacityProps,
   SpacingProps,
@@ -20,12 +21,14 @@ import {
   SpacingShorthandProps,
   layout,
   LayoutProps,
+  TransformProps,
 } from './restyleFunctions';
 import createVariant, {VariantProps} from './createVariant';
 
 type BaseTextProps<Theme extends BaseTheme> = ColorProps<Theme> &
   OpacityProps<Theme> &
   VisibleProps<Theme> &
+  TransformProps<Theme> &
   TypographyProps<Theme> &
   SpacingProps<Theme> &
   LayoutProps<Theme> &
@@ -43,6 +46,7 @@ export const textRestyleFunctions = [
   color,
   opacity,
   visible,
+  transform,
   typography,
   spacing,
   spacingShorthand,

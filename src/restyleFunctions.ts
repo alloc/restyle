@@ -1,4 +1,10 @@
-import {TextStyle, FlexStyle, ViewStyle, DimensionValue} from 'react-native';
+import {
+  TextStyle,
+  FlexStyle,
+  ViewStyle,
+  DimensionValue,
+  TransformsStyle,
+} from 'react-native';
 
 import createRestyleFunction from './createRestyleFunction';
 import {BaseTheme, ResponsiveValue, RNStyleProperty} from './types';
@@ -179,6 +185,10 @@ export const visible = createRestyleFunction({
   transform: ({value}) => (value === false ? 'none' : 'flex'),
 });
 
+export const transform = createRestyleFunction({
+  property: 'transform',
+});
+
 export const spacing = getKeys(spacingProperties).map(property => {
   return createRestyleFunction({
     property,
@@ -350,6 +360,7 @@ export const textShadow = [
 export const all = [
   color,
   opacity,
+  transform,
   backgroundColor,
   backgroundColorShorthand,
   ...spacing,
@@ -383,6 +394,12 @@ export interface OpacityProps<Theme extends BaseTheme> {
 
 export interface VisibleProps<Theme extends BaseTheme> {
   visible?: ResponsiveValue<boolean, Theme['breakpoints']>;
+}
+
+type TransformProp = Exclude<TransformsStyle['transform'], undefined>;
+
+export interface TransformProps<Theme extends BaseTheme> {
+  transform?: ResponsiveValue<TransformProp, Theme['breakpoints']>;
 }
 
 export interface BackgroundColorProps<Theme extends BaseTheme> {
@@ -491,6 +508,7 @@ export type AllProps<Theme extends BaseTheme> = BackgroundColorProps<Theme> &
   BackgroundColorShorthandProps<Theme> &
   ColorProps<Theme> &
   OpacityProps<Theme> &
+  TransformProps<Theme> &
   SpacingProps<Theme> &
   SpacingShorthandProps<Theme> &
   TypographyProps<Theme> &
