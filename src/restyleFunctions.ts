@@ -1,4 +1,4 @@
-import {TextStyle, FlexStyle, ViewStyle} from 'react-native';
+import {TextStyle, FlexStyle, ViewStyle, DimensionValue} from 'react-native';
 
 import createRestyleFunction from './createRestyleFunction';
 import {BaseTheme, ResponsiveValue, RNStyleProperty} from './types';
@@ -221,6 +221,40 @@ export const position = [
     property: 'zIndex',
     themeKey: 'zIndices',
   }),
+  createRestyleFunction({
+    property: 'inset',
+    expand: true,
+    transform({value}) {
+      if (value === undefined) {
+        return undefined;
+      }
+      if (!Array.isArray(value)) {
+        return {
+          top: value,
+          right: value,
+          bottom: value,
+          left: value,
+        };
+      }
+      let [top, right, bottom, left] = value;
+      if (value.length < 2) {
+        right = bottom = left = top;
+      } else {
+        if (value.length < 3) {
+          bottom = top;
+        }
+        if (value.length < 4) {
+          left = right;
+        }
+      }
+      return {
+        top,
+        right,
+        bottom,
+        left,
+      };
+    },
+  }),
 ];
 
 export const border = [
@@ -363,6 +397,11 @@ export type PositionProps<Theme extends BaseTheme> = {
 } & {
   zIndex?: ResponsiveValue<
     ThemeKey<Theme, 'zIndices'> | number,
+    Theme['breakpoints']
+  >;
+  inset?: ResponsiveValue<
+    | DimensionValue
+    | [DimensionValue?, DimensionValue?, DimensionValue?, DimensionValue?],
     Theme['breakpoints']
   >;
 };

@@ -29,11 +29,13 @@ const createRestyleFunction = <
 >({
   property,
   transform,
+  expand,
   styleProperty,
   themeKey,
 }: {
   property: P;
   transform?: StyleTransformFunction<Theme, K, TProps[P]>;
+  expand?: boolean;
   styleProperty?: S;
   themeKey?: K;
 }) => {
@@ -118,6 +120,9 @@ const createRestyleFunction = <
         [styleProp]: value,
       };
       return memoizedThemes.get(theme)[memoizedMapHashKey];
+    }
+    if (expand) {
+      return value;
     }
     return {
       [styleProp]: value,
