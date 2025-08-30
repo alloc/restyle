@@ -18,27 +18,18 @@ const composeRestyleFunctions = <
     | RestyleFunctionContainer<TProps, Theme>[]
   )[],
 ) => {
-  const flattenedRestyleFunctions = restyleFunctions.reduce(
-    (acc: RestyleFunctionContainer<TProps, Theme>[], item) => {
-      return acc.concat(item);
-    },
-    [],
-  );
+  const properties: (keyof TProps)[] = [];
+  const propertiesMap = {} as {[key in keyof TProps]: true};
+  const funcsMap = {} as {
+    [key in keyof TProps]: RestyleFunction<TProps, Theme, string>;
+  };
 
-  const properties = flattenedRestyleFunctions.map(styleFunc => {
-    return styleFunc.property;
-  });
-  const propertiesMap = properties.reduce(
-    (acc, prop) => ({...acc, [prop]: true}),
-    {} as {[key in keyof TProps]: true},
-  );
+  for (const {property, func} of restyleFunctions.flat()) {
+    properties.push(property);
+    propertiesMap[property] = true;
+    funcsMap[property] = func;
+  }
 
-  const funcsMap = flattenedRestyleFunctions.reduce(
-    (acc, each) => ({[each.property]: each.func, ...acc}),
-    {} as {[key in keyof TProps]: RestyleFunction<TProps, Theme, string>},
-  );
-
-  // TInputProps is a superset of TProps since TProps are only the Restyle Props
   const buildStyle = (
     props: TProps,
     {
@@ -51,6 +42,7 @@ const composeRestyleFunctions = <
   ): RNStyle => {
     const styles: ViewStyle = {};
     const options = {theme, dimensions};
+
     // We make the assumption that the props object won't have extra prototype keys.
     // eslint-disable-next-line guard-for-in
     for (const key in props) {
@@ -64,6 +56,7 @@ const composeRestyleFunctions = <
     const {stylesheet} = StyleSheet.create({stylesheet: styles});
     return stylesheet;
   };
+
   return {
     buildStyle,
     properties,
