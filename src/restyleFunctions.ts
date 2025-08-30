@@ -347,22 +347,26 @@ export const boxShadow = createRestyleFunction({
       return {boxShadow: value};
     }
 
-    const parts: string[] = value.trim().split(/\s+/);
-    const colorIndex = parts.findIndex(part => isNaN(parseInt(part)));
+    const matches = Array.from(
+      (value as string).matchAll(
+        /(?:-?[0-9]+(?:\.[0-9]+)?\w*)|(?:\w+\(.*?\))/g,
+      ),
+    );
+    const colorIndex = matches.findIndex(match => isNaN(parseInt(match[0])));
     const color =
-      colorIndex !== -1 ? parts.splice(colorIndex, 1)[0] : undefined;
+      colorIndex !== -1 ? matches.splice(colorIndex, 1)[0][0] : undefined;
 
-    if (parts.length > 3) {
+    if (matches.length > 3) {
       // Fall back to boxShadow for <spread-radius> or <inset> options.
       return {boxShadow: value};
     }
 
     return {
       shadowOffset: {
-        width: parseInt(parts[0]),
-        height: parseInt(parts[1]),
+        width: parseInt(matches[0][0]),
+        height: parseInt(matches[1][0]),
       },
-      shadowRadius: parts[2] ? parseInt(parts[2]) : undefined,
+      shadowRadius: matches[2] ? parseInt(matches[2][0]) : undefined,
       shadowColor: color
         ? getThemeValue(color, {theme, themeKey: 'colors'})
         : undefined,
